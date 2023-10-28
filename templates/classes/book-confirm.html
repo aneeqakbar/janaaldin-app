@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/book-page.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+{% endblock extra_css %}
+
+{% block content %}
+
+
+<div class="main-wrapper main-wrapper-margin">
+  <div class="container py-5">
+
+    <div class="main-cont row my-5">
+
+      <div class="col-6">
+        <h2 class="mb-3">Fill out your details</h2>
+        <hr>
+        <p>Tell us a bit about yourself</p>
+
+
+        <form action="." method="post" class="my-3" id="main-form">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="name-input" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name-input">
+          </div>
+
+          <div class="mb-3">
+            <label for="email-input" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email-input" name="email" />
+          </div>
+
+          <div class="mb-3">
+            <label for="phone-input" class="form-label">Phone Number</label>
+            <input type="phone" class="form-control" id="phone-input" name="phone" />
+          </div>
+
+          <div class="mb-3">
+            <label for="message-input" class="form-label">Add Your Message</label>
+            <textarea name="message" id="message-input" cols="30" rows="10" class="form-control"></textarea>
+          </div>
+
+
+        </form>
+
+      </div>
+
+      <div class="col-6">
+        <h2 class="mb-3">Booking Details</h2>
+        <hr>
+
+        <div class="my-3">
+          <p class="mb-0">Conversational Class</p>
+          <p class="mb-2">Monday, October 2</p>
+
+          <p class="text-muted">
+            <small>
+              Online meetup
+              <br>
+              1hr
+              <br>
+              Test
+            </small>
+          </p>
+        </div>
+
+        <hr>
+
+        <button class="btn btn-dark w-100" id="form-submit-btn">Book Now</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+<script>
+  const form = document.getElementById("main-form");
+  const formSubmitBtn = document.getElementById("form-submit-btn");
+
+  formSubmitBtn.addEventListener("click", () => {
+    form.submit()
+  })
+</script>
+
+{% endblock extra_js %}

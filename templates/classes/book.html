@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/book-page.css' %}">
+<link rel="stylesheet" href="{% static 'css/calendar.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+{% endblock extra_css %}
+
+{% block content %}
+
+
+<div class="main-wrapper main-wrapper-margin">
+  <div class="container py-5">
+    <div>
+      <h1>Conversational Class</h1>
+      <p class="pt-2">Check out our availability and book the date and time that works for you</p>
+      <hr>
+      <div class="d-flex align-items-center">
+        <span class="text-muted">Filter by:</span>
+        <select name="" class="ms-4">
+          <option value="a">Test</option>
+          <option value="a">Test 1</option>
+          <option value="a">Test 2</option>
+          <option value="a">Test 3</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="main-cont row my-5">
+      <div class="col-8">
+        <h2 class="mb-3">Select a Date and Time</h2>
+        <hr>
+      </div>
+      <div class="col-4"></div>
+
+      <div class="col-4">
+        <div class="calendar-container">
+          <header class="calendar-header">
+              <p class="calendar-current-date"></p>
+              <div class="calendar-navigation">
+                  <span id="calendar-prev"
+                        class="material-symbols-rounded">
+                      chevron_left
+                  </span>
+                  <span id="calendar-next"
+                        class="material-symbols-rounded">
+                      chevron_right
+                  </span>
+              </div>
+          </header>
+   
+          <div class="calendar-body">
+              <ul class="calendar-weekdays">
+                  <li>Sun</li>
+                  <li>Mon</li>
+                  <li>Tue</li>
+                  <li>Wed</li>
+                  <li>Thu</li>
+                  <li>Fri</li>
+                  <li>Sat</li>
+              </ul>
+              <ul class="calendar-dates"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4 main-time-cont">
+        <p class="date-display">Sunday, October 1</p>
+
+        {% comment %} <div class="time-cont">
+          5:00 pm
+        </div> {% endcomment %}
+
+        <div class="content">
+          {% comment %} <div class="time-cont selected">
+            5:00 pm
+          </div> {% endcomment %}
+        </div>
+
+
+        {% comment %} <p>No availability</p> {% endcomment %}
+      </div>
+
+      <div class="col-4" id="service-details">
+        <p>Service Details</p>
+
+        <div class="content">
+          {% comment %} <div class="my-3 service">
+            <p class="mb-0">Conversational Class</p>
+            <p class="mb-2">Sunday, October 1</p>
+  
+            <p class="text-muted">
+              <small>Online meetup<br>1hr</small>
+            </p>
+          </div>
+          <hr> {% endcomment %}
+        </div>
+
+        
+        <form action="" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="selected_time" value="">
+          <button class="btn btn-dark w-100">Next</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+  const CLASS_ID = "{{ class.id }}"
+  let CLASS_DATA = {}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+<script src="{% static 'js/calendar.js' %}"></script>
+
+<script>
+
+  async function getClassData(classId) {
+    const res = await fetch(`{% url 'classes:GetClassDataView' %}?id=${classId}`);
+    if (res.status === 200) {
+      const data = await res.json();
+      console.log(data)
+      CLASS_DATA = data;
+      manipulate();
+    }
+  }
+
+  window.addEventListener("load", () => {
+    getClassData(CLASS_ID);
+  })
+
+</script>
+
+
+{% comment %} <script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev',
+        center: 'title',
+        right: 'next',
+        //right: 'dayGridMonth,timeGridWeek,listWeek'
+      },
+      events: [
+        {
+          title  : '',
+          start  : '2023-09-01'
+        },
+        {
+          title  : 'event2',
+          start  : '2023-09-05',
+          end    : '2023-09-07'
+        },
+        {
+          title  : 'event3',
+          start  : '2023-09-09T12:30:00',
+          allDay : false // will make the time show
+        }
+      ]
+  
+    });
+
+    calendar.on('dateClick', function(info) {
+      console.log('clicked on ' + info.dateStr);
+    });
+
+    calendar.render();
+  });
+
+</script> {% endcomment %}
+
+
+{% endblock extra_js %}
