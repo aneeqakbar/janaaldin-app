@@ -34,3 +34,10 @@ class ClassDateTime(models.Model):
 
     def __str__(self):
         return f'{self.parent.name} - {self.datetime}'
+
+    @property
+    def get_datetime_display(self):
+        try:
+            return self.datetime.strftime("%Y-%m-%dT%H:%M")
+        except:
+            return ""

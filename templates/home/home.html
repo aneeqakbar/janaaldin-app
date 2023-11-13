@@ -122,7 +122,7 @@
               {{ class.get_next_upcoming_date.date }}
             </h6>
           </a>
-
+{% comment %} 
           <a class="service-card shadow a-no-style" href="{% url 'classes:ClassBookView' class.id %}">
             <h3>{{ class.name }}</h3>
 
@@ -147,7 +147,7 @@
             <h6>
               {{ class.get_next_upcoming_date.date }}
             </h6>
-          </a>
+          </a> {% endcomment %}
         {% endfor %}
       </div>
     </div>

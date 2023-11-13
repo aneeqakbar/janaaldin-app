@@ -1,0 +1,92 @@
+{% extends "cms/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block ExtraCss %}
+{% endblock ExtraCss %}
+
+{% block content %}
+
+<main class="content">
+  <div class="container-fluid p-0">
+
+    <div class="mb-3">
+      <h1 class="h3 d-inline align-middle">Create New Class</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8 col-xl-9">
+        <div class="card">
+          <div class="card-header">
+
+            <h5 class="card-title mb-0">Class Form</h5>
+          </div>
+          <div class="card-body h-100">
+            <form method="POST" enctype="multipart/form-data" action='.'>
+              {% csrf_token %}
+              {{form|crispy}}
+
+              <p class="my-3">
+                Class Times
+              </p>
+
+              <div>
+                <div id="class-times-cont">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <input type="datetime-local" name="class_time[]" class="form-control" required />
+
+                    <button class="btn btn-sm btn-danger ms-2 delete-class-time-btn" type="button">
+                      X
+                    </button>
+                  </div>
+                </div>
+
+                <button type="button" class="btn btn-primary w-100 mb-3" id="add-time-btn" >Add new time</button>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+{% endblock content %}
+
+
+
+{% block ExtraJs %}
+
+<script>
+  const addTimeBtn = document.getElementById("add-time-btn")
+  const classTimesCont = document.getElementById("class-times-cont")
+  
+  addTimeBtn.addEventListener("click", (e) => {
+    classTimesCont.innerHTML += `
+      <div class="d-flex align-items-center justify-content-between">
+        <input type="datetime-local" name="class_time[]" class="form-control mb-2" required />
+
+        <button class="btn btn-sm btn-danger ms-2 delete-class-time-btn">
+          X
+        </button>
+      </div>
+    `
+    initEvents()
+  })
+  
+  function initEvents() {
+    const deleteClassTimeBtns = document.querySelectorAll(".delete-class-time-btn")
+    deleteClassTimeBtns.forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        btn.parentElement.remove();
+      })
+    })
+  }
+
+  initEvents()
+</script>
+
+{% endblock ExtraJs %}

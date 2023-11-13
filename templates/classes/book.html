@@ -18,11 +18,14 @@
       <hr>
       <div class="d-flex align-items-center">
         <span class="text-muted">Filter by:</span>
-        <select name="" class="ms-4">
-          <option value="a">Test</option>
-          <option value="a">Test 1</option>
+        <select name="staff_member_filter" class="ms-4">
+          <option value="all">ALL</option>
+          {% for member in staff_members %}
+            <option value="{{ member.id }}">{{ member.name }}</option>
+          {% endfor %}
+          {% comment %} <option value="a">Test 1</option>
           <option value="a">Test 2</option>
-          <option value="a">Test 3</option>
+          <option value="a">Test 3</option> {% endcomment %}
         </select>
       </div>
     </div>
@@ -98,8 +101,9 @@
         </div>
 
         
-        <form action="" method="post">
+        <form action="" method="post" id="continue-form">
           {% csrf_token %}
+          <input type="hidden" name="class_id" value="{{ class.id }}">
           <input type="hidden" name="selected_time" value="">
           <button class="btn btn-dark w-100">Next</button>
         </form>
@@ -114,6 +118,8 @@
 <script>
   const CLASS_ID = "{{ class.id }}"
   let CLASS_DATA = {}
+  
+  SELECTED_TIME_ID = ""
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
@@ -133,6 +139,15 @@
 
   window.addEventListener("load", () => {
     getClassData(CLASS_ID);
+  })
+
+  const continueForm = document.getElementById("continue-form")
+
+  continueForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const selected_timeInput = continueForm.querySelector("input[name='selected_time']")
+    selected_timeInput.value = SELECTED_TIME_ID;
+    continueForm.submit()
   })
 
 </script>

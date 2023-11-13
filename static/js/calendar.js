@@ -174,6 +174,7 @@ const manipulate = () => {
 
       const timeCont = document.createElement("div")
       timeCont.classList.add("time-cont")
+      timeCont.setAttribute("data-id", time.id)
       timeCont.innerText = classDate.toLocaleTimeString()
     
       mainTimeCont.appendChild(timeCont)
@@ -243,6 +244,8 @@ function initializeEvents() {
       });
 
       timeCont.classList.toggle("selected", true);
+
+      SELECTED_TIME_ID = timeCont.getAttribute("data-id")
 
       updateServiceDetails()
 

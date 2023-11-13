@@ -1,0 +1,73 @@
+{% extends "cms/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block ExtraCss %}
+{% endblock ExtraCss %}
+
+{% block content %}
+
+<main class="content">
+  <div class="container-fluid p-0">
+
+    <div class="card flex-fill">
+      <div class="card-header">
+        <div class="d-flex align-items-center justify-content-between">
+          <h5 class="card-title mb-0">Classes</h5>
+
+          <a href="{% url 'cms:ClassCreateView' %}" class="btn btn-primary">Create</a>
+        </div>
+      </div>
+      <table class="table table-hover my-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Staff Members</th>
+            <th>Updated At</th>
+            <th>Created At</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in object_list %}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.name }}</td>
+              <td style="max-width: 300px;">{{ item.description }}</td>
+              <td>
+                {% for member in item.staff_members.all %}
+                  <a href="{% url 'cms:StaffMemberUpdateView' member.id %}">
+                    {{ member.name }}
+                  </a>
+                  <br>
+                {% endfor %}
+              </td>
+              <td>{{ item.updated_at.date }}</td>
+              <td>{{ item.created_at.date }}</td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <a href="{% url 'cms:ClassUpdateView' item.pk %}" class="btn btn-sm btn-success">
+                    Update
+                  </a>
+                  <a href="{% url 'cms:ClassDeleteView' item.pk %}" class="btn btn-sm btn-danger ms-2">
+                    Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>
+
+{% endblock content %}
+
+
+
+{% block ExtraJs %}
+{% endblock ExtraJs %}

@@ -6,6 +6,7 @@ class ClassDateTimeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassDateTime
         fields = [
+          "id",
           "parent",
           "datetime",
         ]

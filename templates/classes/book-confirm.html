@@ -20,12 +20,12 @@
         <p>Tell us a bit about yourself</p>
 
 
-        <form action="." method="post" class="my-3" id="main-form">
+        <form action="{% url 'classes:ClassBookConfirmView' %}" method="post" class="my-3" id="main-form">
           {% csrf_token %}
 
           <div class="mb-3">
             <label for="name-input" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name-input">
+            <input type="text" class="form-control" id="name-input" name="name">
           </div>
 
           <div class="mb-3">
@@ -43,6 +43,8 @@
             <textarea name="message" id="message-input" cols="30" rows="10" class="form-control"></textarea>
           </div>
 
+          <input type="hidden" name="class" value="{{ class.id }}" />
+          <input type="hidden" name="selected_time" value="{{ selected_time.id }}" />
 
         </form>
 
@@ -53,8 +55,8 @@
         <hr>
 
         <div class="my-3">
-          <p class="mb-0">Conversational Class</p>
-          <p class="mb-2">Monday, October 2</p>
+          <p class="mb-0">{{ class.name }}</p>
+          <p class="mb-2">{{ selected_time.datetime.date }} - {{ selected_time.datetime.time }}</p>
 
           <p class="text-muted">
             <small>
@@ -62,7 +64,11 @@
               <br>
               1hr
               <br>
-              Test
+              <div>
+                {% for staff_member in class.staff_members.all %}
+                  {{staff_member.name}} <br>
+                {% endfor %}
+              </div>
             </small>
           </p>
         </div>

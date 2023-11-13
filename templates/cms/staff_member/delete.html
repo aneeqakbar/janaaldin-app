@@ -1,0 +1,47 @@
+{% extends "cms/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block ExtraCss %}
+{% endblock ExtraCss %}
+
+{% block content %}
+
+<main class="content">
+  <div class="container-fluid p-0">
+
+    <div class="mb-3">
+      <h1 class="h3 d-inline align-middle">Delete Staff Member #{{ object.id }}</h1>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8 col-xl-9">
+        <div class="card">
+          {% comment %} <div class="card-header">
+            <h5 class="card-title mb-0">Are you sure?</h5>
+          </div> {% endcomment %}
+          <div class="card-body h-100">
+            <form method="POST" action='.'>
+              {% csrf_token %}
+              <p class="mb-3">
+                Are you sure?
+              </p>
+              <div class="d-flex align-items-center">
+                <a href="{% url 'cms:StaffMemberListView' %}" class="btn btn-success me-3">No</a>
+                <button type="submit" class="btn btn-danger">Yes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+{% endblock content %}
+
+
+
+{% block ExtraJs %}
+{% endblock ExtraJs %}
